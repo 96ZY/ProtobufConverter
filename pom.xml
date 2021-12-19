@@ -36,7 +36,7 @@
             <version>3.17.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util &ndash;&gt;-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
@@ -49,6 +49,14 @@
             <artifactId>protobuf-java-format</artifactId>
             <version>1.4</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.78</version>
+        </dependency>
+
     </dependencies>
 
 </project>
