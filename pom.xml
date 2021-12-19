@@ -13,4 +13,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.os72</groupId>
+            <artifactId>protobuf-dynamic</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+    </dependencies>
+
 </project>
