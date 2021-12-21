@@ -46,7 +46,7 @@ public class MessageDefinitionUtil {
             enumDefinitionList.forEach(messageDefinitionBuilder::addEnumDefinition);
         }
 
-        if (messageDefinitionList != null) {
+        if (messageDefinitionFieldList != null) {
             messageDefinitionFieldList.forEach(e -> {
                 if (e.getDefaultVal() != null) {
                     messageDefinitionBuilder.addField(e.getLabel(), e.getType(), e.getName(), e.getNum(), e.getDefaultVal());

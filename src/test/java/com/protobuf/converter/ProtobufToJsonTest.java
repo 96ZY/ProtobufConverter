@@ -142,7 +142,7 @@ public class ProtobufToJsonTest {
                 .addEnumDefinition(phoneTypeEnumDefinition)
                 .addField("optional", "PhoneType", "type", 2, "HOME")
                 .build();
-        System.out.println(phoneNumberMessageDefinition);
+
         MessageDefinition personMessageDefinition = MessageDefinition.newBuilder("Person") // message Person
                 .addField("optional", "string", "name", 1)	// required string name = 1
                 .addField("optional", "int32", "id", 2)		// required int32 id = 2
@@ -157,47 +157,21 @@ public class ProtobufToJsonTest {
     }
 
     private DynamicSchema buildDynamicSchemaOfPersonByUtil() {
-        List<EnumDefinitionUtil.EnumDefinitionField> enumDefinitionFieldList = new ArrayList<>();
-        EnumDefinitionUtil.EnumDefinitionField enumDefinitionField1 = new EnumDefinitionUtil.EnumDefinitionField("MOBILE", 0);
-        EnumDefinitionUtil.EnumDefinitionField enumDefinitionField2 = new EnumDefinitionUtil.EnumDefinitionField("HOME", 1);
-        EnumDefinitionUtil.EnumDefinitionField enumDefinitionField3 = new EnumDefinitionUtil.EnumDefinitionField("WORK", 2);
-        enumDefinitionFieldList.add(enumDefinitionField1);
-        enumDefinitionFieldList.add(enumDefinitionField2);
-        enumDefinitionFieldList.add(enumDefinitionField3);
 
-        EnumDefinition phoneTypeEnumDefinition = EnumDefinitionUtil.buildEnumDefinition("PhoneType", enumDefinitionFieldList);
+        EnumDefinition phoneTypeEnumDefinition = buildEnumDefinition();
+
         List<EnumDefinition> enumDefinitionList = new ArrayList<>();
         enumDefinitionList.add(phoneTypeEnumDefinition);
-
-        List<MessageDefinitionUtil.MessageDefinitionField> messageDefinitionFieldList1 = new ArrayList<>();
-        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField1 = new MessageDefinitionUtil.MessageDefinitionField("optional", "string", "number", 1);
-        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField2 = new MessageDefinitionUtil.MessageDefinitionField("optional", "PhoneType", "type", 2, "HOME");
-        messageDefinitionFieldList1.add(messageDefinitionField1);
-        messageDefinitionFieldList1.add(messageDefinitionField2);
-
-        MessageDefinition phoneNumberMessageDefinition = MessageDefinitionUtil.buildMessageDefinition("PhoneNumber", null, enumDefinitionList, messageDefinitionFieldList1);
-        System.out.println(phoneNumberMessageDefinition);
-        List<MessageDefinitionUtil.MessageDefinitionField> messageDefinitionFieldList2 = new ArrayList<>();
-        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField21 = new MessageDefinitionUtil.MessageDefinitionField("optional", "string", "name", 1);
-        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField22 = new MessageDefinitionUtil.MessageDefinitionField("optional", "int32", "id", 2);
-        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField23 = new MessageDefinitionUtil.MessageDefinitionField("optional", "string", "email", 3);
-        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField24 = new MessageDefinitionUtil.MessageDefinitionField("repeated", "PhoneNumber", "phones", 4);
-        messageDefinitionFieldList2.add(messageDefinitionField21);
-        messageDefinitionFieldList2.add(messageDefinitionField22);
-        messageDefinitionFieldList2.add(messageDefinitionField23);
-        messageDefinitionFieldList2.add(messageDefinitionField24);
+        MessageDefinition phoneNumberMessageDefinition = buildMessageDefinitionOfPhoneNumber(enumDefinitionList);
 
         List<MessageDefinition> messageDefinitionList = new ArrayList<>();
         messageDefinitionList.add(phoneNumberMessageDefinition);
+        MessageDefinition personMessageDefinition = buildMessageDefinitionOfPerson(messageDefinitionList);
 
-        MessageDefinition personMessageDefinition = MessageDefinitionUtil.buildMessageDefinition("Person", messageDefinitionList, null, messageDefinitionFieldList2);
-;
         List<MessageDefinition> messageDefinitionList1 = new ArrayList<>();
         messageDefinitionList1.add(personMessageDefinition);
 
-        DynamicSchema dynamicSchema = DynamicSchemaUtil.buildDynamicSchema("addressbook.proto", messageDefinitionList1);
-        System.out.println(dynamicSchema);
-        return dynamicSchema;
+        return DynamicSchemaUtil.buildDynamicSchema("addressbook.proto", messageDefinitionList1);
     }
 
     private Message buildPersonMessage() {
@@ -215,4 +189,41 @@ public class ProtobufToJsonTest {
 
         return personBuilder.build();
     }
+
+    private EnumDefinition buildEnumDefinition() {
+        List<EnumDefinitionUtil.EnumDefinitionField> enumDefinitionFieldList = new ArrayList<>();
+        EnumDefinitionUtil.EnumDefinitionField enumDefinitionField1 = new EnumDefinitionUtil.EnumDefinitionField("MOBILE", 0);
+        EnumDefinitionUtil.EnumDefinitionField enumDefinitionField2 = new EnumDefinitionUtil.EnumDefinitionField("HOME", 1);
+        EnumDefinitionUtil.EnumDefinitionField enumDefinitionField3 = new EnumDefinitionUtil.EnumDefinitionField("WORK", 2);
+        enumDefinitionFieldList.add(enumDefinitionField1);
+        enumDefinitionFieldList.add(enumDefinitionField2);
+        enumDefinitionFieldList.add(enumDefinitionField3);
+
+        return EnumDefinitionUtil.buildEnumDefinition("PhoneType", enumDefinitionFieldList);
+    }
+
+    private MessageDefinition buildMessageDefinitionOfPhoneNumber(List<EnumDefinition> enumDefinitionList) {
+        List<MessageDefinitionUtil.MessageDefinitionField> messageDefinitionFieldList1 = new ArrayList<>();
+        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField1 = new MessageDefinitionUtil.MessageDefinitionField("optional", "string", "number", 1);
+        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField2 = new MessageDefinitionUtil.MessageDefinitionField("optional", "PhoneType", "type", 2, "HOME");
+        messageDefinitionFieldList1.add(messageDefinitionField1);
+        messageDefinitionFieldList1.add(messageDefinitionField2);
+
+        return MessageDefinitionUtil.buildMessageDefinition("PhoneNumber", null, enumDefinitionList, messageDefinitionFieldList1);
+    }
+
+    private MessageDefinition buildMessageDefinitionOfPerson(List<MessageDefinition> messageDefinitionList) {
+        List<MessageDefinitionUtil.MessageDefinitionField> messageDefinitionFieldList2 = new ArrayList<>();
+        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField21 = new MessageDefinitionUtil.MessageDefinitionField("optional", "string", "name", 1);
+        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField22 = new MessageDefinitionUtil.MessageDefinitionField("optional", "int32", "id", 2);
+        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField23 = new MessageDefinitionUtil.MessageDefinitionField("optional", "string", "email", 3);
+        MessageDefinitionUtil.MessageDefinitionField messageDefinitionField24 = new MessageDefinitionUtil.MessageDefinitionField("repeated", "PhoneNumber", "phones", 4);
+        messageDefinitionFieldList2.add(messageDefinitionField21);
+        messageDefinitionFieldList2.add(messageDefinitionField22);
+        messageDefinitionFieldList2.add(messageDefinitionField23);
+        messageDefinitionFieldList2.add(messageDefinitionField24);
+
+        return MessageDefinitionUtil.buildMessageDefinition("Person", messageDefinitionList, null, messageDefinitionFieldList2);
+    }
+
 }
