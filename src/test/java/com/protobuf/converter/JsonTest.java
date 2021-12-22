@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Just ignore this test class
+ */
+@Deprecated
 public class JsonTest {
 
     @Data
